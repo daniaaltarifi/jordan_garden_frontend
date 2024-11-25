@@ -23,7 +23,7 @@ import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsAndConditions from "./Pages/TermsAndConditions";
-
+export const API_URL = "http://localhost:3000";
 const DirectionHandler = () => {
   const location = useLocation();
   const lang = location.pathname.split("/")[1] || "en";

@@ -2,39 +2,26 @@ import { Col, Container, Row } from "react-bootstrap";
 import "../Css/Careers.css";
 import { Link } from "react-router-dom";
 import work from "../assets/work.png";
+import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+import { API_URL } from "../App";
 function Careers() {
   const lang = location.pathname.split("/")[1] || "en";
+  const [careers, setCareers] = useState([]);
+const getCareers=useCallback(async()=>{
+try {
+  const res=await axios.get(`${API_URL}/careers/getallcareers/${lang}`);
+  setCareers(res.data);
+} catch (error) {
+  console.error(error);
+}
+},[lang])
+useEffect(()=>{
+if(lang){
+  getCareers();
+}
+},[lang,getCareers])
 
-  const careers = [
-    {
-      id: 1,
-      position_name: "Senior Engineer",
-      open_count: 5,
-      location: "amman",
-      exp: "4",
-    },
-    {
-      id: 2,
-      position_name: "Software Engineer",
-      open_count: 5,
-      location: "amman",
-      exp: "4",
-    },
-    {
-      id: 3,
-      position_name: "Flutter Engineer",
-      open_count: 5,
-      location: "amman",
-      exp: "4",
-    },
-    {
-      id: 4,
-      position_name: "Quality Assurance",
-      open_count: 5,
-      location: "amman",
-      exp: "4",
-    },
-  ];
   return (
     <>
       <section className="main_margin_section">
@@ -58,12 +45,12 @@ function Careers() {
                         <img src={work} alt="work" height={"35px"} />{" "}
                       </div>
                       <p className="position_name_careers">
-                        {career.position_name}
+                        {career.position}
                       </p>
                     </div>
                     <div>
                       <p>
-                        {career.open_count}{" "}
+                        {career.numberOfPositions}{" "}
                         {lang === "ar"
                           ? `وظائف مفتوحة ` // RTL text
                           : `position open `}
@@ -75,7 +62,7 @@ function Careers() {
                       type="button"
                       className="btn btn_blogs btn_position_careers"
                     >
-                      {career.position_name}{" "}
+                      {career.position}{" "}
                     </button>
 
                     <div className="card-body">
@@ -94,7 +81,7 @@ function Careers() {
                         :
                       </span>
                       <span>
-                        {career.exp}
+                        {career.experience}
                         {lang === "ar"
                           ? `سنوات ` // RTL text
                           : `years `}

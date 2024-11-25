@@ -2,14 +2,17 @@
 import  { useState } from "react";
 import '../Css/Header.css'; // Assuming you have the CSS saved in Nav.css
 import { Link } from "react-router-dom";
-import logo from '../assets/logo.png';
+// import logo from '../assets/logo.png';
 import { useNavigate } from "react-router-dom";
+import UseLogo from "./UseLogo";
+import { API_URL } from "../App";
 const Header = () => {
   const navigate = useNavigate();
   const lang = location.pathname.split("/")[1] || "en";
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null)
+  const {logo}=UseLogo(lang)
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -24,9 +27,11 @@ const Header = () => {
   };
   return (
     <nav>
-      <div className="logo">
-        <img src={logo} alt="Logo"/>
-      </div>
+       {logo.map((log) => (
+        <div className="logo" key={log.id}>
+          <img src={`${API_URL}/uploads/${log.image}`} alt="Logo" />
+        </div>
+      ))}
 
       <div className={`${lang==='ar' ? "hamburger hamburger_ar":"hamburger"} ${isOpen ? 'toggle' : ''}`} onClick={toggleMenu}>
         <div className="line1"></div>

@@ -63,9 +63,7 @@
   width: 120px;
 }
 /* PROJECTS SECTION */
-.list {
-  columns: 300px;
-}
+
 
 .img_project_home {
   width: 100%;
@@ -89,6 +87,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  height: 100px;
 }
 .blog_img_home {
   box-shadow: var(--beige-color) 6.95px 1.95px 2.6px;

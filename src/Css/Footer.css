@@ -44,6 +44,7 @@
 .social_contact{
   color: var(--brown-color);
 font-weight: 600;
+margin-left: 2vh;
 }
 .footer_link{
   text-decoration: none;

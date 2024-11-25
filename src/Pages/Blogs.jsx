@@ -1,37 +1,46 @@
 import { Col, Container, Row } from "react-bootstrap";
-import pro2 from "../assets/pro2.png";
-import service1 from "../assets/service1.jpg";
-import slide1 from "../assets/slide2.jpg";
 import { FaSearch } from "react-icons/fa";
+import axios from "axios";
+import { API_URL } from "../App";
+import { useCallback, useEffect, useMemo, useState } from "react";
 function Blogs() {
   const lang = location.pathname.split("/")[1] || "en";
+  const [blogsData, setblogsData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
-  const blogsData = [
-    {
-      title: "Photography, the best hobby to have",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor vel ligula non tristique. Sed euismod, arcu in iaculis pellentesque, justo mi suscipit sapien, vitae rutrum dolor justo at ligula. Sed viverra arcu sed ipsum lobortis, vel convallis nunc gravida. Sed vitae facilisis ipsum. Sed et tellus non erat facilisis lobortis. Sed vel felis vel eros viverra iaculis vel a felis.",
-      image: slide1,
-    },
-    {
-      title: "Photography, the best hobby to have",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor vel ligula non tristique. Sed euismod, arcu in iaculis pellentesque, justo mi suscipit sapien, vitae rutrum dolor justo at ligula. Sed viverra arcu sed ipsum lobortis, vel convallis nunc gravida. Sed vitae facilisis ipsum. Sed et tellus non erat facilisis lobortis. Sed vel felis vel eros viverra iaculis vel a felis.",
-      image: pro2,
-    },
-    {
-      title: "Photography, the best hobby to have   ",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor vel ligula non tristique. Sed euismod, arcu in iaculis pellentesque, justo mi suscipit sapien, vitae rutrum dolor justo at ligula. Sed viverra arcu sed ipsum lobortis, vel convallis nunc gravida. Sed vitae facilisis ipsum. Sed et tellus non erat facilisis lobortis. Sed vel felis vel eros viverra iaculis vel a felis.",
-      image: service1,
-    },
-    {
-      title: "Photography, the best hobby to have",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor vel ligula non tristique. Sed euismod, arcu in iaculis pellentesque, justo mi suscipit sapien, vitae rutrum dolor justo at ligula. Sed viverra arcu sed ipsum lobortis, vel convallis nunc gravida. Sed vitae facilisis ipsum. Sed et tellus non erat facilisis lobortis. Sed vel felis vel eros viverra iaculis vel a felis.",
-      image: pro2,
-    },
-  ];
+  const getBlogs = useCallback(async () => {
+    try {
+      const response = await axios.get(`${API_URL}/blogs/getallblogs/${lang}`);
+      setblogsData(response.data);
+    } catch (error) {
+      console.error("Error fetching blogs", error);
+    }
+  }, [lang]); 
+
+  // const memoizedBlogsData = useMemo(() => blogsData, [blogsData]);
+ 
+  const memoizedBlogsData = useMemo(() => {
+    return searchQuery ? searchResults : blogsData;
+  }, [searchQuery, searchResults, blogsData]);
+
+  useEffect(() => {
+    if (lang) {
+      getBlogs();
+    }
+  }, [lang, getBlogs]);
+
+  const handleInputChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    // Filter the blogs based on the search query
+    const filteredResults = memoizedBlogsData.filter((blog) =>
+      blog.title.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setSearchResults(filteredResults);
+  };
   return (
     <>
       <section className="main_margin_section">
@@ -48,41 +57,44 @@ function Blogs() {
                 <input
                   type="text"
                   className="form-control "
-                  placeholder=         {lang==='ar'? "بحث عن":" Search ..."}
-
+                  placeholder= {lang==='ar'? "بحث عن":" Search ..."}
                   aria-label="search"
                   aria-describedby="basic-addon1"
+                  value={searchQuery}
+                  onChange={handleInputChange}
                 />
+               
               </div>
             </form>
           <Row>
-            {blogsData.map((blog) => (
-              <>
-                <Col xl={6} md={6} sm={12}>
-                  <div className="card mb-3 blog_card">
-                    <div className="row g-0">
-                      <div className="col-md-4">
-                        <img
-                          src={blog.image}
-                          className="rounded "
-                          height={"100%"}
-                          width={"100%"}
-                          alt="blog"
-                        />
-                      </div>
-                      <div className="col-md-8">
-                        <div className="card-body">
-                          <h4 className="card-title title_blog">
-                            {blog.title}
-                          </h4>
-                          <p className="card-text desc_blogs">{blog.content}</p>
-                        </div>
-                      </div>
-                    </div>
+          {memoizedBlogsData.length > 0 ? (
+        memoizedBlogsData.map((blog) => (
+          <Col xl={6} md={6} sm={12} key={blog.id}>
+            <div className="card mb-3 blog_card">
+              <div className="row g-0">
+                <div className="col-md-4">
+                  <img
+                    src={`${API_URL}/uploads/${blog.image}`}
+                    className="rounded"
+                    height="100%"
+                    width="100%"
+                    alt={blog.title}
+                  />
+                </div>
+                <div className="col-md-8">
+                  <div className="card-body">
+                    <h4 className="card-title title_blog">{blog.title}</h4>
+                    <p className="card-text desc_blogs">{blog.description}</p>
                   </div>
-                </Col>
-              </>
-            ))}
+                </div>
+              </div>
+            </div>
+          </Col>
+        ))
+      ) : (
+        <div className="text-center">No Blogs Found</div>
+      )}
+
           </Row>
         </Container>
       </section>
