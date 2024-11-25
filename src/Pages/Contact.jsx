@@ -108,7 +108,6 @@ function Contact() {
                     <Form.Control
                       required
                       type="text"
-                      placeholder="First name"
                       name="first_name"
                       value={formData.first_name}
                       onChange={handleChange}
@@ -122,7 +121,6 @@ function Contact() {
                       required
                       type="text"
                       name="last_name"
-                      placeholder="Last name"
                       value={formData.last_name}
                       onChange={handleChange}
                     />
@@ -135,7 +133,6 @@ function Contact() {
                       required
                       type="email"
                       name="email_address"
-                      placeholder="Email address"
                       value={formData.email_address}
                       onChange={handleChange}
                     />
@@ -148,7 +145,6 @@ function Contact() {
                       required
                       type="number"
                       name="phone_number"
-                      placeholder="Phone Number"
                       value={formData.phone_number}
                       onChange={handleChange}
                     />
@@ -161,7 +157,6 @@ function Contact() {
                       required
                       type="text"
                       name="physical_address"
-                      placeholder="Physical Address"
                       value={formData.physical_address}
                       onChange={handleChange}
                     />

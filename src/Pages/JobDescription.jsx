@@ -146,8 +146,6 @@ function JobDescription() {
                     <Form.Control
                       required
                       type="text"
-                      placeholder="First name"
-                      defaultValue="Mark"
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
@@ -162,8 +160,6 @@ function JobDescription() {
                     <Form.Control
                       required
                       type="text"
-                      placeholder="Last name"
-                      defaultValue="Otto"
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
@@ -178,7 +174,6 @@ function JobDescription() {
                     <Form.Control
                       required
                       type="email"
-                      placeholder="Email address"
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
@@ -193,7 +188,6 @@ function JobDescription() {
                     <Form.Control
                       required
                       type="number"
-                      placeholder="Phone Number"
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
@@ -208,7 +202,6 @@ function JobDescription() {
                     <Form.Control
                       required
                       type="number"
-                      placeholder="Years Of Experience"
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>

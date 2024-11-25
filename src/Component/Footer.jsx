@@ -98,7 +98,7 @@ function Footer() {
               <div className="col_contact_footer">
               {content.map((cont) => (
                   <>
-                  <Link to={`${lang}/${cont.link}`} style={{textDecoration:"none"}}>
+                  <Link to={`${lang}/${cont.link}`} className="footer_link">
                     <div>
                       <img
                         src={arrow}
