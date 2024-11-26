@@ -52,7 +52,7 @@ if(lang){
                       <p>
                         {career.numberOfPositions}{" "}
                         {lang === "ar"
-                          ? `وظائف مفتوحة ` // RTL text
+                          ? `وظائف مفتوحة ` 
                           : `position open `}
                       </p>
                     </div>
@@ -68,7 +68,7 @@ if(lang){
                     <div className="card-body">
                       <span className="card-text location_careers">
                         {lang === "ar"
-                          ? `الموقع ` // RTL text
+                          ? `الموقع ` 
                           : `Location `}
                         :{" "}
                       </span>
@@ -76,14 +76,14 @@ if(lang){
                       <br />
                       <span className="card-text location_careers">
                         {lang === "ar"
-                          ? `الخبرة ` // RTL text
+                          ? `الخبرة `
                           : `Experience `}
                         :
                       </span>
                       <span>
                         {career.experience}
                         {lang === "ar"
-                          ? `سنوات ` // RTL text
+                          ? `سنوات `
                           : `years `}
                       </span>
                       <br />
@@ -93,7 +93,7 @@ if(lang){
                         className="link_job_desc_careers"
                       >
                         {lang === "ar"
-                          ? `وصف الوظيفة ` // RTL text
+                          ? `وصف الوظيفة ` 
                           : `Job Description
  `}
                       </Link>
