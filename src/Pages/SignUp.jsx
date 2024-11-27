@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from 'js-cookie';
 
+import { API_URL } from "../App";
 import Swal from "sweetalert2"; 
 
 function SignUp() {
@@ -47,7 +48,7 @@ function SignUp() {
 
     
       try {
-        const response = await axios.post("http://localhost:3000/users/signup", formData);
+        const response = await axios.post(`${API_URL}/users/signup`, formData);
         console.log("User created successfully:", response.data);
 
    

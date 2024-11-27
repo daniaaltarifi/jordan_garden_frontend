@@ -58,7 +58,7 @@ function App() {
         <Routes>
           <Route
             path="/*"
-            element={isAuthenticated ? <Home /> : <Navigate to="/" replace />}
+            element={isAuthenticated ? <Home /> : <Navigate to="/*" replace />}
           />
 
           <Route exact path="/" element={<Login />} />
