@@ -1,6 +1,5 @@
-import { Container, Row, Col, Card, Carousel } from "react-bootstrap";
-import customer from "../assets/customer.jpg";
-import comment from "../assets/comment.png";
+import { Container, Row, Col, Card } from "react-bootstrap";
+
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
@@ -9,7 +8,6 @@ import { API_URL } from "../App";
 function HomeSection() {
   const lang = location.pathname.split("/")[1] || "en";
   const [blogsData, setblogsData] = useState([]);
-  const [feedbacks, setFeedbacks] = useState([]);
 
   let linkToBlogs;
   if (location.pathname === "/") {
@@ -20,12 +18,10 @@ function HomeSection() {
 
   const getData = useCallback(async () => {
     try {
-      const [blogsRes, feedbackRes] = await Promise.all([
+      const [blogsRes] = await Promise.all([
         axios.get(`${API_URL}/blogs/getallblogs/${lang}`),
-        axios.get(`${API_URL}/feedbacks/getallfeedbacks/${lang}`), // Added axios.get here to properly fetch feedbacks data
       ]);
       setblogsData(blogsRes.data);
-      setFeedbacks(feedbackRes.data);
     } catch (error) {
       console.error("Error fetching blogs or feedbacks", error);
     }
@@ -79,31 +75,7 @@ function HomeSection() {
         </Container>
       </section>
 
-      {/* WHY OUR CUSTOMER SAY */}
-      <section className="main_margin_section">
-        <Carousel fade>
-          {feedbacks && feedbacks.length > 0 ? (
-            feedbacks.map((feedback) => (
-              <Carousel.Item className="cont_slider" key={feedback.id}>
-                <img src={customer} alt="slider" className="slider_img" />
-                <div className="textof_slider_home">
-                  <h4 className="titleof_slide_home">
-                    {lang === "ar"
-                      ? "ماذا يقول عملائنا عنا؟"
-                      : "What our customers say about us?"}
-                  </h4>
-                  <div className="cont_customer_home">
-                    <img src={comment} alt="" />
-                    <h6 className="descof_slide_home">{feedback.description}</h6>
-                  </div>
-                </div>
-              </Carousel.Item>
-            ))
-          ) : (
-            <p>{lang === "ar" ? "لا توجد تعليقات" : "No feedback available"}</p>
-          )}
-        </Carousel>
-      </section>
+   
     </>
   );
 }

@@ -7,6 +7,7 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 
 import Swal from "sweetalert2"; 
+import { API_URL } from "../App";
 
 function SignUp() {
   const lang = location.pathname.split("/")[1] || "en"; 
@@ -47,7 +48,7 @@ function SignUp() {
 
     
       try {
-        const response = await axios.post("http://localhost:3000/users/signup", formData);
+        const response = await axios.post(`${API_URL}/users/signup`, formData);
         console.log("User created successfully:", response.data);
 
    
