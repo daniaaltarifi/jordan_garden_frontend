@@ -7,6 +7,7 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import TopHeader from "./Component/TopHeader";
 import Home from "./Pages/Home";
@@ -24,6 +25,8 @@ import Login from "./Pages/Login";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsAndConditions from "./Pages/TermsAndConditions";
 export const API_URL = "http://localhost:3000";
+import Cookies from "cookies-js";
+import { useState } from "react";
 const DirectionHandler = () => {
   const location = useLocation();
   const lang = location.pathname.split("/")[1] || "en";
@@ -36,6 +39,16 @@ const DirectionHandler = () => {
   return null;
 };
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => !!Cookies.get("token")
+  );
+  useEffect(() => {
+    const token = Cookies.get("token");
+    console.log("isAuthenticated:", isAuthenticated);
+    if (token) {
+      setIsAuthenticated(!!token);
+    }
+  }, []);
   return (
     <>
       <Router>
@@ -43,21 +56,44 @@ function App() {
         <Header />
         <DirectionHandler />
         <Routes>
+          <Route
+            path="/*"
+            element={isAuthenticated ? <Home /> : <Navigate to="/" replace />}
+          />
+
+          <Route exact path="/" element={<Login />} />
+          <Route exact path="/:lang/signin" element={<Login />} />
           <Route exact path="/" element={<Home />} />
 
           <Route exact path="/:lang" element={<Home />} />
           <Route exact path="/:lang/about" element={<About />} />
           <Route exact path="/:lang/services" element={<Services />} />
-          <Route exact path="/:lang/servicedetails/:id" element={<ServiceDetails />} />
+          <Route
+            exact
+            path="/:lang/servicedetails/:id"
+            element={<ServiceDetails />}
+          />
           <Route exact path="/:lang/projects" element={<Projects />} />
           <Route exact path="/:lang/blogs" element={<Blogs />} />
           <Route exact path="/:lang/careers" element={<Careers />} />
-          <Route exact path="/:lang/jobdescription/:id" element={<JobDescription />} />
+          <Route
+            path="/:lang/jobdescription/:careerid"
+            element={<JobDescription />}
+          />
+
           <Route exact path="/:lang/contact" element={<Contact />} />
           <Route exact path="/:lang/signup" element={<SignUp />} />
           <Route exact path="/:lang/signin" element={<Login />} />
-          <Route exact path="/:lang/privacypolicy" element={<PrivacyPolicy />} />
-          <Route exact path="/:lang/termsandconditions" element={<TermsAndConditions />} />
+          <Route
+            exact
+            path="/:lang/privacypolicy"
+            element={<PrivacyPolicy />}
+          />
+          <Route
+            exact
+            path="/:lang/termsandconditions"
+            element={<TermsAndConditions />}
+          />
 
           {/* <Route exact path="/contact" element={<Contact />} />
   <Route path="*" element={<PageNotFound />} /> */}
