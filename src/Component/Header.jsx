@@ -126,12 +126,13 @@ const Header = () => {
                 <option value="ar">ar</option>
               </select>
             </div>
-            <li>
-              <button className="logout-button" onClick={logout}>
-                {lang === "ar" ? "تسجيل خروج" : "Logout"}
-              </button>
-            </li>
           </div>
+
+            <li>
+          <button className="Login-button" onClick={logout}>
+              {lang === 'ar' ? "تسجيل خروج" : "Logout"}
+            </button>
+          </li>
         </div>
       </ul>
     </nav>

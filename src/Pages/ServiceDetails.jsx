@@ -7,12 +7,12 @@ import Useprojects from "../Component/UseProjects";
 function ServiceDetails() {
   const { id } = useParams();
   const lang = location.pathname.split("/")[1] || "en";
-  const [servicedetails, setServiceDetails] = useState(null);
+  const [servicedetails, setServiceDetails] = useState([]);
   const [features, setFeatures] = useState([]);
   const [adv, setAdv] = useState([]);
   const { projects } = Useprojects(lang);
-  console.log("first service", projects);
   const getServiceDetails = useCallback(async () => {
+    window.scrollTo(0, 0);
     try {
       const [servdetailsRes, featurseRes, AdvRes] = await Promise.all([
         axios.get(`${API_URL}/services/getservicebyid/${id}/${lang}`),
@@ -45,20 +45,22 @@ function ServiceDetails() {
         <Container>
           <Row>
             {/* IMAGE SECTION */}
-            <Col xl={3} md={6} sm={12} className="cont_img_servicedetaile">
-              <img
-                src={`${API_URL}/uploads/${servicedetails.image}`}
-                alt="servicedetails"
-                className="img_servicedetails rounded-circle"
-              />
-            </Col>
-            {/* DEATILS SECTION */}
-            <Col xl={6} md={6} sm={12}>
-              <h2 className="title_servicedetails">{servicedetails.title} </h2>
-              <h6 className="desc_servicedetails">
-                {servicedetails.description}
-              </h6>
-            </Col>
+            {servicedetails.map((service) => (
+              <>
+                <Col xl={3} md={6} sm={12} className="cont_img_servicedetaile">
+                  <img
+                    src={`${API_URL}/uploads/${service.image}`}
+                    alt="servicedetails"
+                    className="img_servicedetails rounded-circle"
+                  />
+                </Col>
+                {/* DEATILS SECTION */}
+                <Col xl={6} md={6} sm={12}>
+                  <h2 className="title_servicedetails">{service.title} </h2>
+                  <h6 className="desc_servicedetails">{service.description}</h6>
+                </Col>
+              </>
+            ))}
 
             {/* FEATURES SECTION */}
             <Col xl={3} md={6} sm={12} className="cont_features_dervicedetails">
