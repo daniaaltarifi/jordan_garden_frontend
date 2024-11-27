@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from 'js-cookie';
 
-import Swal from "sweetalert2"; 
 import { API_URL } from "../App";
+import Swal from "sweetalert2"; 
 
 function SignUp() {
   const lang = location.pathname.split("/")[1] || "en"; 
