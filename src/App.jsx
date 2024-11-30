@@ -24,7 +24,7 @@ import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import TermsAndConditions from "./Pages/TermsAndConditions";
-// export const API_URL = "http://localhost:3000";
+// export const API_URL = "http://localhost:7060";
  export const API_URL = "https://jordangardensbackend.jordangardens.com";
 
 import Cookies from "cookies-js";

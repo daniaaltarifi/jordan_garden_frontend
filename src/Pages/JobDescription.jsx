@@ -6,6 +6,7 @@ import apply from "../assets/apply.webp";
 import { API_URL } from "../App";
 import { useNavigate } from "react-router-dom";  
 import Swal from "sweetalert2"; 
+
 function JobDescription() {
   const { lang, careerid } = useParams();
   const [jobDescription, setJobDescription] = useState(null);
@@ -33,13 +34,22 @@ function JobDescription() {
   }, [careerid, lang]);
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
     }
     setValidated(true);
+
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phoneNumber || !formData.yearsOfExperience || !formData.skills || !formData.uploadCv) {
+      Swal.fire({
+        title: lang === "ar" ? "خطأ" : "Error",
+        text: lang === "ar" ? "يرجى ملء جميع الحقول." : "Please fill in all the fields.",
+        icon: "error",
+        confirmButtonText: lang === "ar" ? "حسنًا" : "OK",
+      });
+      return;
+    }
 
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("careerId", careerid);
@@ -56,20 +66,25 @@ function JobDescription() {
 
     axios
       .post(`${API_URL}/CreateCareer/createcareer`, formDataToSubmit)
-      .then((response) => {
-        console.log("Career created successfully:", response.data);
-        
+      .then(() => {
         Swal.fire({
-          title: "The Job is",
-          text: "The job application has been successfully submitted.",
+          title: lang === "ar" ? "تم الإرسال" : "Submitted",
+          text: lang === "ar" ? "تم إرسال الطلب بنجاح." : "The job application has been successfully submitted.",
           icon: "success",
-          confirmButtonText: "OK",
+          confirmButtonText: lang === "ar" ? "حسنًا" : "OK",
         }).then(() => {
-      
-          navigate("/careers");
+          navigate(`${lang}/careers`);
         });
       })
       .catch((error) => {
+        Swal.fire({
+          title: lang === "ar" ? "خطأ" : "Error",
+          text: lang === "ar"
+            ? "حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى."
+            : "An error occurred while submitting the application. Please try again.",
+          icon: "error",
+          confirmButtonText: lang === "ar" ? "حسنًا" : "OK",
+        });
         console.error("Error creating career:", error);
       });
   };
@@ -190,8 +205,12 @@ function JobDescription() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
+                      pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      {lang === 'ar' ? "البريد الإلكتروني غير صالح" : "Invalid email"}
+                    </Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group
@@ -208,6 +227,8 @@ function JobDescription() {
                       name="phoneNumber"
                       value={formData.phoneNumber}
                       onChange={handleChange}
+                      minLength="10"
+                      maxLength="15"
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
@@ -241,9 +262,11 @@ function JobDescription() {
                   >
                     <Form.Label className="input_form">{lang === 'ar' ? "السيرة الذاتية" : "Upload CV"}</Form.Label>
                     <Form.Control
+                      required
                       type="file"
                       onChange={handleFileChange}
                     />
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Label className="input_form">{lang === 'ar' ? "المهارات" : "Skills"}</Form.Label>
@@ -254,7 +277,9 @@ function JobDescription() {
                       value={formData.skills}
                       onChange={handleChange}
                       style={{ height: "100px" }}
+                      required
                     />
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </FloatingLabel>
                 </Row>
                 <div className="div_btn_applynow">

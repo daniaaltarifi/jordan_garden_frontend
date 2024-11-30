@@ -17,12 +17,7 @@ const Header = () => {
 
   const logout = async () => {
     try {
-      // const response = await axios.post(`http://localhost:3000/users/logout`, {}, {
-      //   withCredentials: true,
-      // });
-
-      // console.log("Logged out successfully", response.data);
-
+ 
       Cookies.remove("token");
 
       navigate(`/${lang}/login`);

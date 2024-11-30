@@ -12,7 +12,6 @@ function Landing() {
   const lang = location.pathname.split("/")[1] || "en";
   const { services } = UseServices(lang);
   const { projects } = Useprojects(lang);
-  console.log("first launch", projects);
   let linkToServices;
   if (location.pathname === "/") {
     linkToServices = `/${lang}/services`;
