@@ -23,7 +23,7 @@ function JobDescription() {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/careersdescription/getcareerdescriptionbyid/${careerid}/${lang}`)
+      .get(`${API_URL}/careersdescription/getcareerdescriptionbycareer_id/${careerid}/${lang}`)
       .then((response) => {
         setJobDescription(response.data);
       })
