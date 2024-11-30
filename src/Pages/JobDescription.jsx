@@ -73,7 +73,7 @@ function JobDescription() {
           icon: "success",
           confirmButtonText: lang === "ar" ? "حسنًا" : "OK",
         }).then(() => {
-          navigate(`${lang}/careers`);
+          navigate(`/${lang}/careers`);
         });
       })
       .catch((error) => {
