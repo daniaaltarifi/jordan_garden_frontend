@@ -33,6 +33,7 @@ function JobDescription() {
   }, [careerid, lang]);
 
   const handleSubmit = (event) => {
+    event.preventDefault()
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -58,7 +59,6 @@ function JobDescription() {
       .then((response) => {
         console.log("Career created successfully:", response.data);
         
-      
         Swal.fire({
           title: "The Job is",
           text: "The job application has been successfully submitted.",
