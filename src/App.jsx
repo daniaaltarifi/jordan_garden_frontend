@@ -7,7 +7,6 @@ import {
   Routes,
   Route,
   useLocation,
-  Navigate,
 } from "react-router-dom";
 import TopHeader from "./Component/TopHeader";
 import Home from "./Pages/Home";
@@ -27,7 +26,7 @@ import TermsAndConditions from "./Pages/TermsAndConditions";
 // export const API_URL = "http://localhost:7060";
  export const API_URL = "https://jordangardensbackend.jordangardens.com";
 
-import Cookies from "cookies-js";
+import Cookies from "js-cookie";
 import { useState } from "react";
 const DirectionHandler = () => {
   const location = useLocation();
@@ -45,23 +44,28 @@ function App() {
     () => !!Cookies.get("token")
   );
   useEffect(() => {
+    // If the token exists in the cookies when the app first loads
     const token = Cookies.get("token");
-    console.log("isAuthenticated:", isAuthenticated);
-    if (token) {
-      setIsAuthenticated(!!token);
-    }
+    setIsAuthenticated(!!token); // Update state based on token existence
   }, []);
+
+  // useEffect(() => {
+  //   const token = Cookies.get("token");
+  //   console.log("isAuthenticated:", isAuthenticated);
+  //   if (token) {
+  //     setIsAuthenticated(true);
+  //   } else {
+  //     setIsAuthenticated(false);
+  //   }
+  // }, []);
   return (
     <>
       <Router>
         <TopHeader />
-        <Header />
+        <Header isAuthenticated={isAuthenticated}  setIsAuthenticated={setIsAuthenticated} />
         <DirectionHandler />
         <Routes>
-          <Route
-            path="/*"
-            element={isAuthenticated ? <Home /> : <Navigate to="/*" replace />}
-          />
+        <Route path="/" element={isAuthenticated ? <Home /> : <Login  setIsAuthenticated={setIsAuthenticated}/>} />
 
           <Route exact path="/" element={<Login />} />
           <Route exact path="/:lang/signin" element={<Login />} />

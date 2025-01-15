@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import UseLogo from "./UseLogo";
 import { API_URL } from "../App";
 import Cookies from "js-cookie";
-const Header = () => {
+const Header = ({ isAuthenticated ,setIsAuthenticated}) => {
   const navigate = useNavigate();
   const lang = location.pathname.split("/")[1] || "en";
   const [isOpen, setIsOpen] = useState(false);
@@ -17,10 +17,9 @@ const Header = () => {
 
   const logout = async () => {
     try {
- 
+      setIsAuthenticated(false); // Update the state immediately after logout
       Cookies.remove("token");
-
-      navigate(`/${lang}/login`);
+      navigate(`/${lang}`);
     } catch (error) {
       console.error("Error during logout: ", error);
     }
@@ -91,29 +90,40 @@ const Header = () => {
           </Link>
         </li>
         <div className="d-flex">
-          <li>
-            <Link to={`/`}>
-              <button className="Login-button">
-                {" "}
-                {lang === "ar" ? "تسجيل دخول" : "Login"}
+          {isAuthenticated ? (
+            <li>
+              <button className="Login-button" onClick={logout}>
+                {lang === "ar" ? "تسجيل خروج" : "Logout"}
               </button>
-            </Link>
-          </li>
-          <li>
-            <Link to={`${lang}/signup`}>
-              <button className="Login-button background_btn">
-                {" "}
-                {lang === "ar" ? "تسجيل حساب" : " Sign Up"}
-              </button>
-            </Link>
-          </li>
+            </li>
+          ) : (
+            <div className="d-flex">
+              <li>
+                <Link to={`/`}>
+                  <button className="Login-button">
+                    {" "}
+                    {lang === "ar" ? "تسجيل دخول" : "Login"}
+                  </button>
+                </Link>
+              </li>
+              <li>
+                <Link to={`${lang}/signup`}>
+                  <button className="Login-button background_btn">
+                    {" "}
+                    {lang === "ar" ? "تسجيل حساب" : " Sign Up"}
+                  </button>
+                </Link>
+              </li>
+            </div>
+          )}
+
           <div
             className="dropdown-container border-none"
             onClick={toggleDropdown}
           >
             <div className="dropdown-wrapper">
               <select
-                className="form-select small-select"
+                className="form-select small-select ms-2"
                 value={selectedOption}
                 onChange={handleSelection}
               >
@@ -122,12 +132,6 @@ const Header = () => {
               </select>
             </div>
           </div>
-
-            <li>
-          <button className="Login-button" onClick={logout}>
-              {lang === 'ar' ? "تسجيل خروج" : "Logout"}
-            </button>
-          </li>
         </div>
       </ul>
     </nav>

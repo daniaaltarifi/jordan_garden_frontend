@@ -76,7 +76,7 @@ function Blogs() {
                   <img
                     src={`${API_URL}/uploads/${blog.image}`}
                     className="rounded"
-                    height="100%"
+                    height="245px"
                     width="100%"
                     alt={blog.title}
                   />

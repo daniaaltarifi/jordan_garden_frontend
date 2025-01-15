@@ -73,7 +73,7 @@ function Contact() {
           <Row>
             <Col xl={5} md={12} sm={12} className="cont_backg_apply">
               <h5 className="text-center mb-5 title_contact">
-                {lang === "ar" ? "تقدم الآن لهذا الوظيفة" : "Contact Information"}
+                {lang === "ar" ? "تواصل معنا" : "Contact Information"}
               </h5>
               <img
                 src={contactimg}

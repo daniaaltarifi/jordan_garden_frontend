@@ -4,11 +4,11 @@ import auth from "../assets/slide2.jpg";
 import "../Css/SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "cookies-js"; 
+import Cookies from "js-cookie"; 
 import Swal from "sweetalert2";  
 import { API_URL } from "../App";
 
-function Login() {
+function Login({ setIsAuthenticated }) {
   const [validated, setValidated] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,6 +33,8 @@ function Login() {
 
       if (response.status === 200) {
         Cookies.set("token", response.data.token, { expires: 1 });
+        setIsAuthenticated(true); // Immediately update state when login is successful
+
         console.log(response.data.token);
         navigate(`/${lang}`); 
         console.log(`The Langugaue is :${lang}`)
